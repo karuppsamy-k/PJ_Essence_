@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-burgundy: #6B1E2B;
+  --color-burgundy-dark: #4A121D;
+  --color-bronze: #B68A4C;
+  --color-bronze-light: #D4AB6E;
+  --color-cream: #F8F2EA;
+  --color-cream-light: #FCFAF7;
+  --color-cream-warm: #F4ECE1;
+  --color-walnut: #5C4033;
+  --color-soft-taupe: #B6A89C;
+  --color-charcoal: #1E1918;
+  --color-magenta: #D81B7E;
+  --color-magenta-dark: #A01060;
+  --color-magenta-light: #F048A8;
+  --color-magenta-blush: #FDE7F3;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Custom Luxury Gradients & Textures */
+.gold-text {
+  background: linear-gradient(135deg, #B68A4C 0%, #E8CA9B 45%, #936C35 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bronze-border {
+  border-color: rgba(182, 138, 76, 0.3);
+}
+
+.luxury-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(182, 138, 76, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(92, 64, 51, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-card:hover {
+  border-color: rgba(182, 138, 76, 0.45);
+  box-shadow: 0 20px 40px -10px rgba(107, 30, 43, 0.12);
+}
+
+.glass-panel {
+  background: rgba(248, 242, 234, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(182, 138, 76, 0.25);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F4ECE1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #B6A89C;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B68A4C;
+}
+
+/* Subtle Shimmer for High-End Highlights */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-badge {
+  background: linear-gradient(90deg, rgba(182,138,76,0.1) 0%, rgba(182,138,76,0.3) 50%, rgba(182,138,76,0.1) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 4s infinite linear;
+}
