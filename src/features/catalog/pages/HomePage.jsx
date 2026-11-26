@@ -4,11 +4,28 @@ import { motion } from 'framer-motion';
 import { Compass, Sparkles, ArrowRight, ShieldCheck, Heart, Wind, Home, Star, Droplets, User, Users } from 'lucide-react';
 import { catalogService } from '../../../services/catalogService';
 import { ProductCard } from '../../../components/shared/ProductCard';
-import { FragrancePyramid } from '../../../components/shared/FragrancePyramid';
+import { HERO_PRODUCTS } from '../../../data/heroProducts';
+import { useProductCarousel } from '../../../hooks/useProductCarousel';
+import { HeroProductShowcase } from '../components/hero/HeroProductShowcase';
+import { SynchronizedFragrancePyramid } from '../components/hero/SynchronizedFragrancePyramid';
 
 export function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Central synchronized carousel engine: single source of truth for all 8 perfumes
+  const carousel = useProductCarousel({
+    products: HERO_PRODUCTS,
+    interval: 7000,
+    autoPlay: true,
+  });
+
+  const handleScrollToPyramid = () => {
+    const el = document.getElementById('fragrance-pyramid-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
 
   useEffect(() => {
     async function loadData() {
@@ -24,94 +41,14 @@ export function HomePage() {
     loadData();
   }, []);
 
-  const samplePyramidNotes = {
-    top: ['Wild Cardamom', 'Calabrian Bergamot', 'Pink Peppercorn'],
-    heart: ['Damask Rose', 'Smoked Amber', 'Dark Cacao'],
-    base: ['Cambodian Oud', 'Bourbon Vanilla', 'Atlas Cedarwood'],
-  };
-
   return (
     <div className="space-y-24">
-      {/* 1. EDITORIAL HERO SECTION */}
-      <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden bg-cream-warm/70">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-bronze/15 via-transparent to-transparent blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="lg:col-span-7 space-y-6 text-center lg:text-left"
-          >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-bronze/30 shadow-sm backdrop-blur-sm">
-              <Sparkles className="w-3.5 h-3.5 text-bronze animate-pulse" />
-              <span className="text-xs uppercase tracking-widest font-semibold text-charcoal">
-                Winter Solstice Edition &amp; Pure Attars Formulated
-              </span>
-            </div>
-
-            <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-charcoal leading-[1.08] tracking-tight">
-              Scents Crafted for Your <span className="italic font-normal text-burgundy">Unspoken</span> Presence.
-            </h1>
-
-            <p className="text-base sm:text-lg text-charcoal-muted max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-              Experience natural-language fragrance discovery, bespoke formulations, pure artisanal attars, handcrafted walnut car diffusers, and palatial room essences.
-            </p>
-
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <Link
-                to="/quiz"
-                className="w-full sm:w-auto px-8 py-4 bg-burgundy hover:bg-burgundy-dark text-cream font-semibold uppercase tracking-widest text-xs rounded-xl shadow-luxury-hover flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-              >
-                <Compass className="w-4 h-4 text-bronze-light" />
-                <span>Begin Natural Scent Quiz</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-
-              <Link
-                to="/custom-perfume"
-                className="w-full sm:w-auto px-8 py-4 bg-white/80 hover:bg-white text-charcoal border border-bronze/40 hover:border-bronze font-semibold uppercase tracking-widest text-xs rounded-xl shadow-sm transition-all"
-              >
-                Enter Bespoke Atelier
-              </Link>
-            </div>
-
-            <div className="pt-6 flex items-center justify-center lg:justify-start gap-6 text-xs text-taupe-dark">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-600" />
-                <span>Small-Batch Grasse Distillation</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-bronze" />
-                <span>Pure Alcohol-Free Artisanal Attars</span>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.2 }}
-            className="lg:col-span-5 relative"
-          >
-            <div className="relative mx-auto max-w-md aspect-[4/5] rounded-3xl overflow-hidden border border-bronze/30 shadow-2xl bg-gradient-to-b from-cream via-white to-cream-warm p-3">
-              <img
-                src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1000&q=85"
-                alt="PJ Essence Haute Parfumerie Flacon"
-                className="w-full h-full object-cover rounded-2xl"
-              />
-
-              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-white/85 backdrop-blur-md border border-bronze/30 shadow-luxury">
-                <div className="flex items-center justify-between text-xs text-taupe-dark mb-1">
-                  <span className="uppercase tracking-widest text-bronze font-semibold">Signature Flacon</span>
-                  <span>Extrait de Parfum</span>
-                </div>
-                <h3 className="font-serif text-lg font-semibold text-charcoal">Velvet Oud &amp; Smoked Amber</h3>
-                <p className="text-xs text-taupe-dark mt-0.5">Top: Wild Cardamom • Heart: Damask Rose • Base: Aged Cambodian Oud</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+      {/* 1. SYNCHRONIZED AUTOMATIC LUXURY HERO CAMPAIGN (8 PERFUMES SEQUENCE) */}
+      <section>
+        <HeroProductShowcase
+          carousel={carousel}
+          onScrollToPyramid={handleScrollToPyramid}
+        />
       </section>
 
       {/* 2. THE MASTER DISCIPLINES (INCLUDING ATTAR & BESPOKE ATELIER) */}
@@ -363,9 +300,12 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 4. VISUAL REFERENCE: THE FRAGRANCE PYRAMID PHILOSOPHY */}
+      {/* 4. SYNCHRONIZED 3D GLASS FRAGRANCE PYRAMID — DRIVEN BY ACTIVE FLACON */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <FragrancePyramid notes={samplePyramidNotes} interactive={true} />
+        <SynchronizedFragrancePyramid
+          product={carousel.currentProduct}
+          interactive={true}
+        />
       </section>
 
       {/* 5. FEATURED MASTERPIECES */}
@@ -386,13 +326,13 @@ export function HomePage() {
 
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map(n => (
+            {[1, 2, 3, 4].map((n) => (
               <div key={n} className="h-96 rounded-xl bg-cream-warm animate-pulse border border-taupe/20" />
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map(product => (
+            {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

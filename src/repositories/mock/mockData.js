@@ -1,7 +1,42 @@
 import { createProduct, PRODUCT_TYPES, GENDER_TYPES } from '../../patterns/factory/productFactory';
 import { ORDER_STATUS } from '../../patterns/state-machine/orderStateMachine';
+import { HERO_PRODUCTS } from '../../data/heroProducts';
+
+const HERO_CATALOG_PRODUCTS = HERO_PRODUCTS.map((hp) =>
+  createProduct({
+    id: `prod_${hp.id}`,
+    type: PRODUCT_TYPES.PERFUME,
+    name: hp.name,
+    slug: hp.slug,
+    tagline: hp.tagline,
+    description: hp.description,
+    price: hp.price,
+    currency: 'INR',
+    inventory: 45,
+    gender: hp.genderType === 'MEN' ? GENDER_TYPES.MEN : hp.genderType === 'WOMEN' ? GENDER_TYPES.WOMEN : GENDER_TYPES.UNISEX,
+    active: true,
+    featured: true,
+    seasonTags: ['ALL_SEASON', 'WINTER', 'AUTUMN'],
+    occasionTags: ['EVENING', 'SPECIAL', 'DAILY'],
+    fragranceFamilies: [hp.olfactoryProfile.family.split(' ')[0]],
+    intensity: hp.olfactoryProfile.intensity,
+    warmth: 8,
+    freshness: 7,
+    sweetness: 6,
+    images: [hp.image],
+    pyramidImage: hp.pyramidImage,
+    notes: {
+      top: hp.notes.top,
+      heart: hp.notes.middle,
+      base: hp.notes.base,
+    },
+    rating: 4.96,
+    reviewCount: 48,
+  })
+);
 
 export const INITIAL_PRODUCTS = [
+  ...HERO_CATALOG_PRODUCTS,
   createProduct({
     id: 'prod_velvet_oud',
     type: PRODUCT_TYPES.PERFUME,
